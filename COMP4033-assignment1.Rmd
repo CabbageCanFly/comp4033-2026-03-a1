@@ -30,8 +30,11 @@ COMP 4033 – Health Informatics Data Analytics
 
 ## 1. Dataset Structure
 
-This section provides an overview of the dataset structure, including
-the number of variables and their data types.
+This dataset contains patient-level information related to oral cancer cases.
+
+The `str()` function shows that the dataset contains 84,922 observations and 
+25 variables. It includes a mix of numeric and character variables representing 
+demographics, risk factors, clinical symptoms, and treatment outcomes.
 
 ```{r}
 str(oral_data)
@@ -41,7 +44,10 @@ str(oral_data)
 
 ## 2. Variables in Dataset
 
-The dataset contains the following variables:
+The `names()` function lists all 25 variables in the dataset. These include 
+demographic information (e.g., Age, Gender, Country), risk factors (e.g., 
+Tobacco Use, Alcohol Consumption, HPV Infection), clinical indicators, and 
+outcome variables such as survival rate and treatment cost.
 
 ```{r}
 names(oral_data)
@@ -49,7 +55,8 @@ names(oral_data)
 
 ## 3. Preview of Data
 
-Below are the first 15 rows of the dataset:
+The `head()` function displays the first 15 rows of the dataset, providing a 
+quick overview of how the data is organized.
 
 ```{r}
 head(oral_data, 15)
@@ -57,10 +64,10 @@ head(oral_data, 15)
 
 ## 4. User-Defined Function
 
-Calculate a risk score based on the person's data with tobacco, alcohol,
-HPV, family history, and compromised immune system.
-
-*This score is arbitrary — this is only for demonstrative purposes.*
+A user-defined function is created to calculate a simple risk score based on 
+selected risk factors, including tobacco use, alcohol consumption, HPV 
+infection, family history, and immune system status. Each factor contributes a 
+weighted value to produce an overall score for demonstration purposes.
 
 ```{r}
 risk_score <- function(tobacco, alcohol, hpv, family_history, immune_system) {
@@ -80,7 +87,7 @@ risk_score(oral_data$Tobacco.Use[1],
 
 ## 5. Filter Rows Based on Criteria
 
-Filter rows based on the following criteria:
+An example filter is applied based on the following conditions:
 
 - Stage 1 cancer  
 - Tumor sizes less than 5 cm  
@@ -89,6 +96,10 @@ Filter rows based on the following criteria:
 - Female  
 - No tobacco use  
 - No betel quid use
+
+The narrow criteria result in a small subset of patients, in this case older 
+females from Sri Lanka with early-stage cancer and generally fewer high-risk 
+behaviors.
 
 ```{r}
 oral_data %>% filter(
@@ -105,7 +116,8 @@ oral_data %>% filter(
 
 ## 6. Identifying Dependent & Independent Variables
 
-The dataset contains multiple potential independent and dependent variables; a subset has been selected for demonstration purposes.
+The dataset contains multiple potential independent and dependent variables; a 
+subset has been selected for demonstration purposes.
 
 Independent variable: **Tumor Size**  
 Dependent variable: **Cost of Treatment**
@@ -117,6 +129,8 @@ head(data.frame(oral_data$Tumor.Size..cm., oral_data$Cost.of.Treatment..USD.), 1
 Independent variable: **Diet (Fruits, Vegetables Intake)**  
 Dependent variable: **Cancer Stage**
 
+This relationship is explored for demonstration purposes, recognizing that it may be indirect.
+
 ```{r}
 head(data.frame(oral_data$Diet..Fruits...Vegetables.Intake., oral_data$Cancer.Stage), 15)
 ```
@@ -125,11 +139,12 @@ head(data.frame(oral_data$Diet..Fruits...Vegetables.Intake., oral_data$Cancer.St
 
 ## 7. Data Cleaning and Adjustments
 
-Remove missing values in the dataset. Identify and remove duplicated
-data in the dataset.
-
-Reorder multiple rows in descending order. Rename some of the column
-names in the dataset.
+Basic data cleaning steps are demonstrated, including **removing missing values**, 
+**eliminating duplicate** records, **sorting** the data in descending order by 
+treatment cost, and **renaming** selected columns for clarity. In this dataset, no 
+missing values or duplicate records were observed. Columns such as alcohol 
+consumption and treatment cost were renamed for readability as part of the 
+demonstration.
 
 ```{r}
 clean_data = oral_data %>% filter(!is.na(Cost.of.Treatment..USD.))
@@ -146,7 +161,9 @@ head(clean_data, 5)
 
 ## 8. Adding New Variables to the Data Frame
 
-Add a **"Cost per cm"** column based on **Treatment Cost** divided by **Tumor Size**.
+A new variable, **cost per cm**, is created by dividing **treatment cost** by 
+**tumor size**. This demonstrates how derived variables can be added to the 
+dataset for further analysis.
 
 ```{r}
 clean_data = clean_data %>% mutate(cost.per.cm = Treatment.Cost.USD / Tumor.Size..cm.)
@@ -155,8 +172,9 @@ head(clean_data, 5)
 
 ## 9. Creating a Training Set
 
-Create a training set using random number generator engine with seed
-`1234` with 5% the size of the main data set.
+A training set is created by randomly sampling 5% of the dataset using a fixed 
+seed (1234) to ensure reproducibility. This demonstrates how subsets of data 
+can be generated for modeling or testing purposes.
 
 ```{r}
 set.seed(1234) 
@@ -168,6 +186,14 @@ head(training_data, 5)
 
 ## 10. Summary of the Main Data Set
 
+The `summary()` function provides an overview of the dataset.
+
+From the output, many values for tumor size and treatment cost are zero, which 
+may indicate placeholder or missing entries. The median tumor size and cancer
+stage are also zero, suggesting many cases are recorded at early or minimal 
+levels. Additionally, a large number of missing values appear in 
+cost per cm, due to division by zero when tumor size is zero.
+
 ```{r}
 summary(clean_data)
 ```
@@ -176,6 +202,12 @@ summary(clean_data)
 
 **Mean**, **median**, and **range** of treatment costs.
 
+Basic statistical measures such as mean, median, and range are calculated for 
+treatment cost. The mean cost is approximately 39,110 USD, while the median is 
+0, indicating that a large portion of the dataset contains zero-cost entries. 
+The range spans from 0 to 159,988 USD, showing a wide variation in treatment 
+costs.
+
 ```{r}
 mean(clean_data$Treatment.Cost.USD, na.rm = TRUE)
 median(clean_data$Treatment.Cost.USD, na.rm = TRUE)
@@ -183,10 +215,13 @@ range(clean_data$Treatment.Cost.USD, na.rm = TRUE)
 ```
 
 R does not have a built-in `mode()` function for statistical mode (most
-frequent value). The `mode()` function in R refers to the storage type
-of an object. So the following code was executed to determine the **mode**
+frequent value). The `mode()` function in R refers to the data type of an 
+object. So the following code was executed to determine the statistical **mode**
 of cancer stage in the dataset; this code can be put in a user-defined function 
 for reusability, but the following is included to illustrate the steps taken.
+
+The most common cancer stage in the dataset is 0, which aligns with earlier 
+observations that many cases are recorded at early or minimal stages.
 
 1. `table()` is used to count how many times each cancer stage appears.
 
@@ -213,7 +248,12 @@ names(cancer_stage_count)[1]
 
 ## 12. Scatter Plot
 
-Scatter plot of **Survival Rate (5 years)** and **Treatment Cost**.
+A scatter plot is created to visualize the relationship between 
+**survival rate (5 years)** and **treatment cost**.
+
+The plot shows a slight negative trend, where higher survival rates are 
+generally associated with lower treatment costs. However, the relationship is 
+weak, as there is significant variability in costs across all survival levels.
 
 ```{r}
 ggplot(data = training_data, aes(x = Survival.Rate..5.Year...., y = Treatment.Cost.USD)) + 
@@ -224,7 +264,13 @@ ggplot(data = training_data, aes(x = Survival.Rate..5.Year...., y = Treatment.Co
 
 ## 13. Bar Plot
 
-Bar plot of displaying **number of individuals at each cancer stage**.
+A bar plot is created to display the **number of individuals at each cancer stage**, 
+grouped by **gender**.
+
+From the plot, stage 0 has the highest number of individuals, with counts 
+decreasing as cancer stage increases. Males appear to have higher counts than 
+females across all stages, although the overall distribution trend is similar 
+for both groups.
 
 ```{r}
 ggplot(data = clean_data, aes(x = Cancer.Stage, fill = Gender)) + geom_bar() + 
@@ -233,9 +279,12 @@ ggplot(data = clean_data, aes(x = Cancer.Stage, fill = Gender)) + geom_bar() +
 
 ## 14. Pearson Correlation
 
-A correlation near 1 implies high correlation; the following example has about
--0.8 correlation, so there is a strong negative linear relationship
-between **Treatment Cost** and **Survival Rate**.
+A correlation value close to 1 or -1 indicates a strong linear relationship. 
+The Pearson correlation between **treatment cost** and **survival rate** is 
+approximately -0.8, indicating a strong negative correlation, where higher 
+survival rates are generally associated with lower treatment costs. While the 
+scatter plot of the same variables (Section 12) shows high variability, the 
+overall downward trend still results in a strong negative correlation.
 
 ```{r}
 cor(clean_data$Treatment.Cost.USD, clean_data$Survival.Rate..5.Year...., method="pearson")
