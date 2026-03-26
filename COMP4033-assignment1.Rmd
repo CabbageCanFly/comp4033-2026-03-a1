@@ -1,5 +1,5 @@
 ---
-title: "COMP4033 Assignment 1 Group 7"
+title: "Assignment 1 – Data Analysis using R Programming"
 output:
   html_document: default
   pdf_document: default
@@ -14,8 +14,17 @@ library(tidyverse)
 oral_data <- read.csv("oral_cancer_prediction_dataset.csv")
 ```
 
-By: Esther Agyemang, Omar Alamodi, Aliha Bashir, Hetal Bulsara, Andy
+**Group 7**: Esther Agyemang, Omar Alamodi, Aliha Bashir, Hetal Bulsara, Andy
 Huang, James Huynh, Nasteha Mohamed, and Tina Shen
+
+George Brown Polytechnic  
+COMP 4033 – Health Informatics Data Analytics
+
+## Related Links
+
+- **GitHub repository:** https://github.com/CabbageCanFly/comp4033-2026-03-a1  
+- **RPubs link:** https://rpubs.com/cabbagecanfly/1413996  
+- **Dataset source:** https://www.kaggle.com/datasets/ankushpanday2/oral-cancer-prediction-dataset
 
 ## 1. Dataset Structure
 
@@ -190,10 +199,4 @@ cor(clean_data$Treatment.Cost.USD, clean_data$Survival.Rate..5.Year...., method=
 
 \newpage
 
-# Resources
-
-- **GitHub repository:** https://github.com/CabbageCanFly/comp4033-2026-03-a1  
-- **RPubs version:** https://rpubs.com/cabbagecanfly/1413996  
-- **Dataset source:** https://www.kaggle.com/datasets/ankushpanday2/oral-cancer-prediction-dataset
-
-<div style="height: 300px;"></div>
+<div style="height: 200px;"></div>
