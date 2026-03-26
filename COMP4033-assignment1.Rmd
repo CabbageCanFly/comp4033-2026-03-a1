@@ -233,7 +233,7 @@ ggplot(data = clean_data, aes(x = Cancer.Stage, fill = Gender)) + geom_bar() +
 
 ## 14. Pearson Correlation
 
-A correlation near 1 implies high correlation; the dataset has about
+A correlation near 1 implies high correlation; the following example has about
 -0.8 correlation, so there is a strong negative linear relationship
 between **Treatment Cost** and **Survival Rate**.
 
