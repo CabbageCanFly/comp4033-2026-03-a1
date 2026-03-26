@@ -17,16 +17,16 @@ oral_data <- read.csv("oral_cancer_prediction_dataset.csv")
 **Group 7**: Esther Agyemang, Omar Alamodi, Aliha Bashir, Hetal Bulsara,
 Andy Huang, James Huynh, Nasteha Mohamed, and Tina Shen
 
-George Brown Polytechnic\
+George Brown Polytechnic  
 COMP 4033 – Health Informatics Data Analytics
 
 ## Related Links
 
 - **GitHub repository:**
-    <https://github.com/CabbageCanFly/comp4033-2026-03-a1>\
-- **RPubs link:** <https://rpubs.com/cabbagecanfly/1413996>\
+    <a href="https://github.com/CabbageCanFly/comp4033-2026-03-a1" target="_blank">https://github.com/CabbageCanFly/comp4033-2026-03-a1</a>\
+- **RPubs link:** <a href="https://rpubs.com/cabbagecanfly/comp4033-a1-g7" target="_blank">https://rpubs.com/cabbagecanfly/comp4033-a1-g7</a>\
 - **Dataset source:**
-    <https://www.kaggle.com/datasets/ankushpanday2/oral-cancer-prediction-dataset>
+    <a href="https://www.kaggle.com/datasets/ankushpanday2/oral-cancer-prediction-dataset" target="_blank">https://www.kaggle.com/datasets/ankushpanday2/oral-cancer-prediction-dataset</a>
 
 ## 1. Dataset Structure
 
@@ -251,9 +251,12 @@ names(cancer_stage_count)[1]
 A scatter plot is created to visualize the relationship between 
 **survival rate (5 years)** and **treatment cost**.
 
-The plot shows a slight negative trend, where higher survival rates are 
-generally associated with lower treatment costs. However, the relationship is 
-weak, as there is significant variability in costs across all survival levels.
+The plot shows a slight negative relationship between survival rate and 
+treatment cost. The distribution is not fully continuous, as points form 
+clusters at certain values, which may reflect how the data is structured around 
+specific treatment or disease categories. Despite these clusters, there is 
+still variability within groups, suggesting that treatment cost is not solely 
+determined by survival rate.
 
 ```{r}
 ggplot(data = training_data, aes(x = Survival.Rate..5.Year...., y = Treatment.Cost.USD)) + 
