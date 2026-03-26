@@ -15,7 +15,7 @@ Group 7:
 - Tina Shen
 
 Dataset:  
-https://www.kaggle.com/datasets/ankushpanday2/oral-cancer-prediction-dataset
+[https://www.kaggle.com/datasets/ankushpanday2/oral-cancer-prediction-dataset](https://www.kaggle.com/datasets/ankushpanday2/oral-cancer-prediction-dataset)
 
 Also uploaded to RPubs:  
-https://rpubs.com/cabbagecanfly/1413996
+[https://rpubs.com/cabbagecanfly/1413996](https://rpubs.com/cabbagecanfly/1413996)
