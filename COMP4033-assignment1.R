@@ -59,7 +59,7 @@ mean(clean_data$Treatment.Cost.USD, na.rm = TRUE)
 median(clean_data$Treatment.Cost.USD, na.rm = TRUE)
 range(clean_data$Treatment.Cost.USD, na.rm = TRUE)
 
-cancer_stage_count = table(oral_data$Cancer.Stage)
+cancer_stage_count = table(clean_data$Cancer.Stage)
 cancer_stage_count = sort(cancer_stage_count, decreasing = TRUE)
 names(cancer_stage_count)[1]
 

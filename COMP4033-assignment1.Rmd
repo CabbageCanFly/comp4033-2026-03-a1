@@ -191,7 +191,7 @@ for reusability, but the following is included to illustrate the steps taken.
 1. `table()` is used to count how many times each cancer stage appears.
 
 ```{r}
-cancer_stage_count = table(oral_data$Cancer.Stage)
+cancer_stage_count = table(clean_data$Cancer.Stage)
 cancer_stage_count
 ```
 
