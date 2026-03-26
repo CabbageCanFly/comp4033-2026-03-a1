@@ -1,0 +1,151 @@
+---
+title: "COMP4033 Assignment1-group7"
+output:
+  html_document: default
+  pdf_document: default
+date: "2026-03-26"
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+oral_data <- read.csv("oral_cancer_prediction_dataset.csv")
+```
+
+## 1. Dataset Structure
+
+This section provides an overview of the dataset structure, including the number of variables and their data types.
+
+```{r}
+str(oral_data)
+```
+
+## 2. Variables in Dataset
+
+The dataset contains the following variables:
+
+```{r}
+names(oral_data)
+```
+
+## 3. Preview of Data
+
+Below are the first 15 rows of the dataset:
+
+```{r}
+head(oral_data, 15)
+```
+
+# 4. User-defined function
+
+Calculate a risk score based on the person's data with tobacco, alcohol, HPV, family history, and compromised immune system.
+
+```{r}
+risk_score <- function(tobacco, alcohol, hpv, family_history, immune_system) {
+  (tobacco == "Yes") * 2 +
+  (alcohol == "Yes") +
+  (hpv == "Yes") * 2 + 
+  (family_history == "Yes") + 
+  (immune_system == "Yes")
+}
+
+risk_score(oral_data$Tobacco.Use[1],
+           oral_data$Alcohol.Consumption[1],
+           oral_data$HPV.Infection[1],
+           oral_data$Family.History.of.Cancer[1],
+           oral_data$Compromised.Immune.System[1])
+```
+
+# 5. Filter rows based on critera
+
+Get rows with stage 1 cancer and tumor sizes less than 5 cm.
+
+```{r}
+output = oral_data %>% filter(
+       oral_data$Cancer.Stage == "1",
+       oral_data$Tumor.Size..cm.<"5")
+head(output, 15)
+```
+
+# 6. Identify dependent & independent variables
+
+```{r}
+# Independent var: Tumor Size -- Dependent var: Cost of Treatment
+head(data.frame(oral_data$Tumor.Size..cm., oral_data$Cost.of.Treatment..USD.), 15)
+
+# Independent var: Diet (fruits, veg intake) -- Dependent var: Cancer Stage
+head(data.frame(oral_data$Diet..Fruits...Vegetables.Intake., oral_data$Cancer.Stage), 15)
+```
+
+# 7. Data cleaning and adjustments
+
+Remove missing values in your dataset. Identify and remove duplicated data in your dataset.
+
+Reorder multiple rows in descending order. Rename some of the column names in your dataset.
+
+```{r}
+clean_data = oral_data %>% filter(!is.na(Cost.of.Treatment..USD.))
+clean_data = clean_data %>% distinct()
+
+clean_data = clean_data %>% arrange(desc(Cost.of.Treatment..USD.))
+
+clean_data = clean_data %>% rename(
+  Drinker = Alcohol.Consumption,
+  Treatment.Cost.USD = Cost.of.Treatment..USD.
+)
+```
+
+# 8. Add new variables to the data frame
+
+Add a "Cost per cm" column based on Treatment Cost divided by Tumor Size.
+
+```{r}
+clean_data = clean_data %>% mutate(cost.per.cm = Treatment.Cost.USD / Tumor.Size..cm.)
+```
+
+# 9. Create a training set
+
+Create a training set using random number generator engine with seed `1234` with 5% the size of the main data set.
+
+```{r}
+set.seed(1234) 
+training_data <- clean_data %>% sample_frac(0.05, replace = FALSE)
+```
+
+# 10. Summary of the main data set
+
+```{r}
+summary(clean_data)
+```
+
+# 11. Mean and range of treatment costs
+
+```{r}
+mean(clean_data$Treatment.Cost.USD, na.rm = TRUE)
+range(clean_data$Treatment.Cost.USD, na.rm = TRUE)
+```
+
+# 12. Scatter plot
+
+Scatter plot of Tumor Size and Treatment Cost.
+
+```{r}
+ggplot(data = training_data, aes(x = Tumor.Size..cm., y = Treatment.Cost.USD)) + 
+  geom_point(color = "steelblue", size = 1.2)
+```
+
+# 13. Bar plot
+
+Bar plot of displaying number of individuals at each cancer stage.
+
+```{r}
+ggplot(data = training_data, aes(x = Cancer.Stage, fill = Gender)) + geom_bar() + 
+  ylab("Number of Individuals")
+```
+
+# 14. Pearson correlation
+
+A correlation near 1 implies high correlation; the dataset has about ~0.75 correlation, so there is a strong linear relationship between Treatment Cost and Tumor Size.
+
+```{r}
+cor(clean_data$Treatment.Cost.USD, clean_data$Tumor.Size..cm., method="pearson")
+```
