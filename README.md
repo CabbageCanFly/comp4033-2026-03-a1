@@ -14,6 +14,9 @@ Group 7:
 - Nasteha Mohamed
 - Tina Shen
 
+PDF from .Rmd:  
+[https://cabbagecanfly.github.io/comp4033-2026-03-a1/COMP4033-assignment1.pdf](https://cabbagecanfly.github.io/comp4033-2026-03-a1/COMP4033-assignment1.pdf)
+
 Dataset:  
 [https://www.kaggle.com/datasets/ankushpanday2/oral-cancer-prediction-dataset](https://www.kaggle.com/datasets/ankushpanday2/oral-cancer-prediction-dataset)
 
