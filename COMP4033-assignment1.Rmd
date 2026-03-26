@@ -14,6 +14,9 @@ library(tidyverse)
 oral_data <- read.csv("oral_cancer_prediction_dataset.csv")
 ```
 
+By: Esther Agyemang, Omar Alamodi, Aliha Bashir, Hetal Bulsara, Andy
+Huang, James Huynh, Nasteha Mohamed, and Tina Shen
+
 ## 1. Dataset Structure
 
 This section provides an overview of the dataset structure, including
@@ -22,6 +25,8 @@ the number of variables and their data types.
 ```{r}
 str(oral_data)
 ```
+
+\newpage
 
 ## 2. Variables in Dataset
 
@@ -62,9 +67,15 @@ risk_score(oral_data$Tobacco.Use[1],
 
 # 5. Filter Rows Based on Criteria
 
-Filter rows based on the following criteria: - Stage 1 cancer - Tumor
-sizes less than 5 cm - From Sri Lanka - Over the age of 60 - Female - No
-tobacco use - No betel quid use
+Filter rows based on the following criteria:
+
+- Stage 1 cancer\
+- Tumor sizes less than 5 cm\
+- From Sri Lanka\
+- Over the age of 60\
+- Female\
+- No tobacco use\
+- No betel quid use
 
 ```{r}
 oral_data %>% filter(
@@ -77,6 +88,8 @@ oral_data %>% filter(
   oral_data$Betel.Quid.Use == "No")
 ```
 
+\newpage
+
 # 6. Identifying Dependent & Independent Variables
 
 ```{r}
@@ -86,6 +99,8 @@ head(data.frame(oral_data$Tumor.Size..cm., oral_data$Cost.of.Treatment..USD.), 1
 # Independent var: Diet (fruits, veg intake) -- Dependent var: Cancer Stage
 head(data.frame(oral_data$Diet..Fruits...Vegetables.Intake., oral_data$Cancer.Stage), 15)
 ```
+
+\newpage
 
 # 7. Data Cleaning and Adjustments
 
@@ -126,6 +141,8 @@ set.seed(1234)
 training_data <- clean_data %>% sample_frac(0.05, replace = FALSE)
 ```
 
+\newpage
+
 # 10. Summary of the Main Data Set
 
 ```{r}
@@ -139,6 +156,8 @@ mean(clean_data$Treatment.Cost.USD, na.rm = TRUE)
 range(clean_data$Treatment.Cost.USD, na.rm = TRUE)
 ```
 
+\newpage
+
 # 12. Scatter Plot
 
 Scatter plot of Survival Rate (5 years) and Treatment Cost.
@@ -147,6 +166,8 @@ Scatter plot of Survival Rate (5 years) and Treatment Cost.
 ggplot(data = training_data, aes(x = Survival.Rate..5.Year...., y = Treatment.Cost.USD)) + 
   geom_point(color = "steelblue", size = 1.2)
 ```
+
+\newpage
 
 # 13. Bar Plot
 
@@ -166,3 +187,11 @@ between Treatment Cost and Survival Rate.
 ```{r}
 cor(clean_data$Treatment.Cost.USD, clean_data$Survival.Rate..5.Year...., method="pearson")
 ```
+
+\newpage
+
+# Resources
+
+- **GitHub repository:** https://github.com/CabbageCanFly/comp4033-2026-03-a1  
+- **RPubs version:** https://rpubs.com/cabbagecanfly/1413996  
+- **Dataset source:** https://www.kaggle.com/datasets/ankushpanday2/oral-cancer-prediction-dataset
