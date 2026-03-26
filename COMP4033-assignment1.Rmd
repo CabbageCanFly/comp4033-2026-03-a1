@@ -14,17 +14,19 @@ library(tidyverse)
 oral_data <- read.csv("oral_cancer_prediction_dataset.csv")
 ```
 
-**Group 7**: Esther Agyemang, Omar Alamodi, Aliha Bashir, Hetal Bulsara, Andy
-Huang, James Huynh, Nasteha Mohamed, and Tina Shen
+**Group 7**: Esther Agyemang, Omar Alamodi, Aliha Bashir, Hetal Bulsara,
+Andy Huang, James Huynh, Nasteha Mohamed, and Tina Shen
 
-George Brown Polytechnic  
+George Brown Polytechnic\
 COMP 4033 – Health Informatics Data Analytics
 
 ## Related Links
 
-- **GitHub repository:** https://github.com/CabbageCanFly/comp4033-2026-03-a1  
-- **RPubs link:** https://rpubs.com/cabbagecanfly/1413996  
-- **Dataset source:** https://www.kaggle.com/datasets/ankushpanday2/oral-cancer-prediction-dataset
+- **GitHub repository:**
+    <https://github.com/CabbageCanFly/comp4033-2026-03-a1>\
+- **RPubs link:** <https://rpubs.com/cabbagecanfly/1413996>\
+- **Dataset source:**
+    <https://www.kaggle.com/datasets/ankushpanday2/oral-cancer-prediction-dataset>
 
 ## 1. Dataset Structure
 
@@ -53,10 +55,12 @@ Below are the first 15 rows of the dataset:
 head(oral_data, 15)
 ```
 
-# 4. User-Defined Function
+## 4. User-Defined Function
 
 Calculate a risk score based on the person's data with tobacco, alcohol,
 HPV, family history, and compromised immune system.
+
+*This score is arbitrary — this is only for demonstrative purposes.*
 
 ```{r}
 risk_score <- function(tobacco, alcohol, hpv, family_history, immune_system) {
@@ -74,22 +78,22 @@ risk_score(oral_data$Tobacco.Use[1],
            oral_data$Compromised.Immune.System[1])
 ```
 
-# 5. Filter Rows Based on Criteria
+## 5. Filter Rows Based on Criteria
 
 Filter rows based on the following criteria:
 
-- Stage 1 cancer\
-- Tumor sizes less than 5 cm\
-- From Sri Lanka\
-- Over the age of 60\
-- Female\
-- No tobacco use\
+- Stage 1 cancer  
+- Tumor sizes less than 5 cm  
+- From Sri Lanka  
+- Over the age of 60  
+- Female  
+- No tobacco use  
 - No betel quid use
 
 ```{r}
 oral_data %>% filter(
-  oral_data$Cancer.Stage == "1",
-  oral_data$Tumor.Size..cm. < "5",
+  oral_data$Cancer.Stage == 1,
+  oral_data$Tumor.Size..cm. < 5,
   oral_data$Country == "Sri Lanka",
   oral_data$Age > 60,
   oral_data$Gender == "Female",
@@ -99,25 +103,33 @@ oral_data %>% filter(
 
 \newpage
 
-# 6. Identifying Dependent & Independent Variables
+## 6. Identifying Dependent & Independent Variables
+
+The dataset contains multiple potential independent and dependent variables; a subset has been selected for demonstration purposes.
+
+Independent variable: **Tumor Size**  
+Dependent variable: **Cost of Treatment**
 
 ```{r}
-# Independent var: Tumor Size -- Dependent var: Cost of Treatment
 head(data.frame(oral_data$Tumor.Size..cm., oral_data$Cost.of.Treatment..USD.), 15)
+```
 
-# Independent var: Diet (fruits, veg intake) -- Dependent var: Cancer Stage
+Independent variable: **Diet (Fruits, Vegetables Intake)**  
+Dependent variable: **Cancer Stage**
+
+```{r}
 head(data.frame(oral_data$Diet..Fruits...Vegetables.Intake., oral_data$Cancer.Stage), 15)
 ```
 
 \newpage
 
-# 7. Data Cleaning and Adjustments
+## 7. Data Cleaning and Adjustments
 
-Remove missing values in your dataset. Identify and remove duplicated
-data in your dataset.
+Remove missing values in the dataset. Identify and remove duplicated
+data in the dataset.
 
 Reorder multiple rows in descending order. Rename some of the column
-names in your dataset.
+names in the dataset.
 
 ```{r}
 clean_data = oral_data %>% filter(!is.na(Cost.of.Treatment..USD.))
@@ -129,47 +141,79 @@ clean_data = clean_data %>% rename(
   Drinker = Alcohol.Consumption,
   Treatment.Cost.USD = Cost.of.Treatment..USD.
 )
+head(clean_data, 5)
 ```
 
-# 8. Adding New Variables to the Data Frame
+## 8. Adding New Variables to the Data Frame
 
-Add a "Cost per cm" column based on Treatment Cost divided by Tumor
-Size.
+Add a **"Cost per cm"** column based on **Treatment Cost** divided by **Tumor Size**.
 
 ```{r}
 clean_data = clean_data %>% mutate(cost.per.cm = Treatment.Cost.USD / Tumor.Size..cm.)
+head(clean_data, 5)
 ```
 
-# 9. Creating a Training Set
+## 9. Creating a Training Set
 
 Create a training set using random number generator engine with seed
 `1234` with 5% the size of the main data set.
 
 ```{r}
 set.seed(1234) 
-training_data <- clean_data %>% sample_frac(0.05, replace = FALSE)
+training_data = clean_data %>% sample_frac(0.05, replace = FALSE)
+head(training_data, 5)
 ```
 
 \newpage
 
-# 10. Summary of the Main Data Set
+## 10. Summary of the Main Data Set
 
 ```{r}
 summary(clean_data)
 ```
 
-# 11. Mean and Range of Treatment Costs
+## 11. Statistical Functions on the Dataset
+
+**Mean**, **median**, and **range** of treatment costs.
 
 ```{r}
 mean(clean_data$Treatment.Cost.USD, na.rm = TRUE)
+median(clean_data$Treatment.Cost.USD, na.rm = TRUE)
 range(clean_data$Treatment.Cost.USD, na.rm = TRUE)
 ```
 
+R does not have a built-in `mode()` function for statistical mode (most
+frequent value). The `mode()` function in R refers to the storage type
+of an object. So the following code was executed to determine the **mode**
+of cancer stage in the dataset; this code can be put in a user-defined function 
+for reusability, but the following is included to illustrate the steps taken.
+
+1. `table()` is used to count how many times each cancer stage appears.
+
+```{r}
+cancer_stage_count = table(oral_data$Cancer.Stage)
+cancer_stage_count
+```
+
+2. Sort the counts from highest to lowest.
+
+```{r}
+cancer_stage_count = sort(cancer_stage_count, decreasing = TRUE)
+cancer_stage_count
+```
+
+3. **Obtain the cancer stage with the highest count.**
+
+```{r}
+names(cancer_stage_count)[1]
+```
+
+
 \newpage
 
-# 12. Scatter Plot
+## 12. Scatter Plot
 
-Scatter plot of Survival Rate (5 years) and Treatment Cost.
+Scatter plot of **Survival Rate (5 years)** and **Treatment Cost**.
 
 ```{r}
 ggplot(data = training_data, aes(x = Survival.Rate..5.Year...., y = Treatment.Cost.USD)) + 
@@ -178,25 +222,23 @@ ggplot(data = training_data, aes(x = Survival.Rate..5.Year...., y = Treatment.Co
 
 \newpage
 
-# 13. Bar Plot
+## 13. Bar Plot
 
-Bar plot of displaying number of individuals at each cancer stage.
+Bar plot of displaying **number of individuals at each cancer stage**.
 
 ```{r}
 ggplot(data = clean_data, aes(x = Cancer.Stage, fill = Gender)) + geom_bar() + 
   ylab("Number of Individuals")
 ```
 
-# 14. Pearson Correlation
+## 14. Pearson Correlation
 
 A correlation near 1 implies high correlation; the dataset has about
 -0.8 correlation, so there is a strong negative linear relationship
-between Treatment Cost and Survival Rate.
+between **Treatment Cost** and **Survival Rate**.
 
 ```{r}
 cor(clean_data$Treatment.Cost.USD, clean_data$Survival.Rate..5.Year...., method="pearson")
 ```
-
-\newpage
 
 <div style="height: 200px;"></div>

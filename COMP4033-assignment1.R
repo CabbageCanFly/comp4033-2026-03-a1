@@ -23,8 +23,8 @@ risk_score(oral_data$Tobacco.Use[1],
            oral_data$Compromised.Immune.System[1])
 
 output = oral_data %>% filter(
-       oral_data$Cancer.Stage == "1",
-       oral_data$Tumor.Size..cm. < "5",
+       oral_data$Cancer.Stage == 1,
+       oral_data$Tumor.Size..cm. < 5,
        oral_data$Country == "Sri Lanka",
        oral_data$Age > 60,
        oral_data$Gender == "Female",
@@ -51,12 +51,17 @@ clean_data = clean_data %>% rename(
 clean_data = clean_data %>% mutate(cost.per.cm = Treatment.Cost.USD / Tumor.Size..cm.)
 
 set.seed(1234)
-training_data <- clean_data %>% sample_frac(0.05, replace = FALSE)
+training_data = clean_data %>% sample_frac(0.05, replace = FALSE)
 
 summary(clean_data)
 
 mean(clean_data$Treatment.Cost.USD, na.rm = TRUE)
+median(clean_data$Treatment.Cost.USD, na.rm = TRUE)
 range(clean_data$Treatment.Cost.USD, na.rm = TRUE)
+
+cancer_stage_count = table(oral_data$Cancer.Stage)
+cancer_stage_count = sort(cancer_stage_count, decreasing = TRUE)
+names(cancer_stage_count)[1]
 
 cor(clean_data$Treatment.Cost.USD, clean_data$Survival.Rate..5.Year...., method="pearson")
 
