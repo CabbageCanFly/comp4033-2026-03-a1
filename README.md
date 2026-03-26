@@ -1,0 +1,16 @@
+# COMP 4033 Assignment 1 – Data Analysis using R Programming
+
+March 28, 2026
+
+Group 7:
+- Esther Agyemang
+- Omar Alamodi
+- Aliha Bashir
+- Hetal Bulsara
+- Andy Huang
+- James Huynh
+- Nasteha Mohamed
+- Tina Shen
+
+Dataset:
+https://www.kaggle.com/datasets/ankushpanday2/oral-cancer-prediction-dataset
