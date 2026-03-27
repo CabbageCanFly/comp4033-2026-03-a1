@@ -30,7 +30,13 @@ COMP 4033 – Health Informatics Data Analytics
 
 ## 1. Dataset Structure
 
-This dataset contains patient-level information related to oral cancer cases.
+This dataset contains individual information related to oral cancer.
+
+According to the dataset description on Kaggle, the data is based on real-world 
+oral cancer statistics and is intended to reflect patterns reported in global 
+health studies. Based on the `Country` variable, the dataset includes 
+observations from 17 unique countries, including India, Pakistan, Sri Lanka, 
+Taiwan, and some Western nations.
 
 The `str()` function shows that the dataset contains 84,922 observations and 
 25 variables. It includes a mix of numeric and character variables representing 
@@ -38,6 +44,18 @@ demographics, risk factors, clinical symptoms, and treatment outcomes.
 
 ```{r}
 str(oral_data)
+```
+
+### 1.1 Dataset Countries
+
+The `table()` function is used to count the number of records per country, 
+while `length()` is used to determine the total number of unique countries in 
+the dataset.
+
+```{r}
+countries = table(oral_data$Country)
+sort(countries)
+length(countries)
 ```
 
 \newpage
